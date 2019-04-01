@@ -18,6 +18,21 @@
         </div>
     <script src="index.js"></script>
     <script type="text/javascript">
+        // subscribe a new function
+        store.subscribe(() => {
+            const {goals, todos} = store.getState()
+            
+            document.getElementById('goals').innerHTML = ''
+            document.getElementById('todos').innerHTML = ''
+            
+            goals.forEach(goal => {
+                addGoalToDOM(goal)
+            });
+            todos.forEach(todo => {
+                addTodoToDOM(todo)
+            })
+        })
+
         function generateId () {
             return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
         }
@@ -48,7 +63,21 @@
             .addEventListener('click', addTodo)
 
         document.getElementById('goalBtn')
-            .addEventListener('click', addGoal)    
+            .addEventListener('click', addGoal) 
+        
+        function addTodoToDOM(todo) {
+            const node = document.createElement('li')
+            const text = document.createTextNode(todo.name)
+            node.appendChild(text)
+            document.getElementById('todos').appendChild(node)
+        }
+
+        function addGoalToDOM(goal) {
+            const node = document.createElement('li')
+            const text = document.createTextNode(goal.name)
+            node.appendChild(text)
+            document.getElementById('goals').appendChild(node)
+        }   
     </script>
 </body>
 </html> 
