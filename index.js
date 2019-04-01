@@ -2,6 +2,13 @@
 // 1. Only an event can change the state of the store. 
 //    The event can be represented as an Action object 
 // 2. The function that returns the new state needs to be a pure function.
+function todo(state = [], action) {
+	if(action.type === "TO_DO") {
+		return state.concat([action.todo])
+	}
+
+	return state
+}
 
 function createStore() {
 	// The Store should have four parts
@@ -19,9 +26,14 @@ function createStore() {
 			listeners.filter((l) => l !== listener)
 		}
 	}
-
+	dispatch = (action) => {
+		state = todo(state, action)
+		listeners.forEach((listener) => listener())
+	}
 	return {
-		getState
+		getState,
+		subscribe,
+		dispatch
 	} 
 }
 
