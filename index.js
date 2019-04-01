@@ -32,8 +32,8 @@ function createStore(reducer) {
 }
 
 // Application code 
-todo = (state = [], action) => {
-	if(action.type === "TO_DO") {
+function todo (state = [], action) {
+	if(action.type === "ADD_TODO") {
 		return state.concat([action.todo])
 	}
 
@@ -44,11 +44,20 @@ todo = (state = [], action) => {
 const store = createStore(todo)
 
 store.subscribe(() => {
-	console.log("The State has changes to ", store.getState())
+	console.log("The new state is : ", store.getState())
 })
 
-const unsubscribe = store.subscribe(() => {
-	console.log("The State of the store is changed")
+store.dispatch({
+	type: "ADD_TODO",
+	todo: {
+		id: 0,
+		name: "Learn Redux",
+		complete: false
+	}
 })
 
-unsubscribe()
+// const unsubscribe = store.subscribe(() => {
+// 	console.log("The State of the store is changed")
+// })
+
+// unsubscribe()
