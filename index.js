@@ -2,15 +2,9 @@
 // 1. Only an event can change the state of the store. 
 //    The event can be represented as an Action object 
 // 2. The function that returns the new state needs to be a pure function.
-function todo(state = [], action) {
-	if(action.type === "TO_DO") {
-		return state.concat([action.todo])
-	}
 
-	return state
-}
-
-function createStore() {
+// Library code 
+function createStore(reducer) {
 	// The Store should have four parts
 	//1. The State
 	//2. Get the state
@@ -27,7 +21,7 @@ function createStore() {
 		}
 	}
 	dispatch = (action) => {
-		state = todo(state, action)
+		state = reducer(state, action)
 		listeners.forEach((listener) => listener())
 	}
 	return {
@@ -37,7 +31,17 @@ function createStore() {
 	} 
 }
 
-const store = createStore()
+// Application code 
+todo = (state = [], action) => {
+	if(action.type === "TO_DO") {
+		return state.concat([action.todo])
+	}
+
+	return state
+}
+
+
+const store = createStore(todo)
 
 store.subscribe(() => {
 	console.log("The State has changes to ", store.getState())
