@@ -106,6 +106,16 @@ function goals(state = [], action) {
 // 	}
 // }
 
+function checkAndDispatch(store, action) {
+	if (action.type === ADD_TODO && action.todo.name.toLowerCase().includes('bitcoin')) {
+		return alert("No, That is a bad idea")
+	} else if(action.type === ADD_GOAL && action.goal.name.toLowerCase().includes('bitcoin')) {
+		return alert("No, That is a bad idea")
+	} else {
+		return store.dispatch(action)
+	}
+}
+
 const store = Redux.createStore(Redux.combineReducers({
 	todos,
 	goals,
