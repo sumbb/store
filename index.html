@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Udacity Todos Goals</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.min.js"></script>
 </head>
 <body>
     <div>
@@ -27,7 +28,7 @@
             
             goals.forEach(goal => {
                 addGoalToDOM(goal)
-            });
+            })
             todos.forEach(todo => {
                 addTodoToDOM(todo)
             })
