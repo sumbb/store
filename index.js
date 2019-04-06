@@ -105,21 +105,20 @@ function goals(state = [], action) {
 // 		goals : goals(state.goals, action)
 // 	}
 // }
-
-function checkAndDispatch(store, action) {
+const checker = (store) => (next) => (action) => {
 	if (action.type === ADD_TODO && action.todo.name.toLowerCase().includes('bitcoin')) {
 		return alert("No, That is a bad idea")
 	} else if(action.type === ADD_GOAL && action.goal.name.toLowerCase().includes('bitcoin')) {
 		return alert("No, That is a bad idea")
 	} else {
-		return store.dispatch(action)
+		return next(action)
 	}
 }
 
 const store = Redux.createStore(Redux.combineReducers({
 	todos,
 	goals,
-}))
+}), Redux.applyMiddleware(checker))
 
 store.subscribe(() => {
 	console.log("The new state is : ", store.getState())
