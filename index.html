@@ -109,8 +109,18 @@
     </script>
     <script type="text/babel">
         function List(props) {
+            console.log(props)
             return <ul>
-                <li>LIST</li>
+                    {
+                        props.items.map((item) => (
+                            <li key={item.id}>
+                                <span>{item.name}</span>
+                                <button
+                                    onClick={() => props.removeItem(item)}
+                                >X</button>
+                            </li>
+                        ))
+                    }
                 </ul>
         }
         class Todos extends React.Component {
@@ -124,6 +134,9 @@
                     name
                 }))
             }
+            removeItem = (todo) => {
+                this.props.store.dispatch(removeTodoAction(todo.id))
+            }
             render() {
                 return <div>
                         <h1>Todo List</h1>
@@ -133,7 +146,7 @@
                             ref={(input) => this.input = input}
                         /> 
                         <button onClick={this.addItem}>Add Todo</button>
-                        <List />
+                        <List removeItem={this.removeItem} items={this.props.todos}/>
                     </div>
             }    
         }
@@ -147,6 +160,9 @@
                     name
                 }))
             }
+            removeItem = (goal) => {
+                this.props.store.dispatch(removeGoalAction(goal.id))
+            }
             render() {
                 return <div>
                         <h1>Goal List</h1>
@@ -156,7 +172,7 @@
                             ref={(input) => this.input = input}
                         /> 
                         <button onClick={this.addItem}>Add Goal</button>
-                        <List />
+                        <List removeItem={this.removeItem} items={this.props.goals}/>
                     </div>
             }    
         }      
@@ -166,7 +182,7 @@
             }
             render() {
                 const {store} = this.props
-                const {todos, goals} = store
+                const {todos, goals} = store.getState()
                 return <div>
                         <Todos todos={todos} store={store}/>
                         <Goals goals={goals} store={store}/>
