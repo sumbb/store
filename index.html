@@ -47,6 +47,10 @@
             }
             removeItem = (todo) => {
                 this.props.store.dispatch(removeTodoAction(todo.id))
+                return API.deleteTodo(todo.id).catch(() => {
+                    this.props.store.dispatch(addTodoAction(todo))
+                    alert("An error occured while deleting todo : "+ todo.name)
+                })
             }
             toggleItem = (todo) => {
                 this.props.store.dispatch(toggleTodoAction(todo.id))
@@ -76,6 +80,10 @@
             }
             removeItem = (goal) => {
                 this.props.store.dispatch(removeGoalAction(goal.id))
+                API.deleteGoal(goal.id).catch(() => {
+                    this.props.store.dispatch(addGoalAction(goal))
+                    alert('An Error occured while deleting goal : '+ goal.name)
+                })
             }
             render() {
                 return <div>
