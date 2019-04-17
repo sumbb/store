@@ -146,11 +146,21 @@ const checker = (store) => (next) => (action) => {
 	}
 }
 
+// Redux Thunk middleware basic implementation
+// const thunk = (store) => (next) => (action) => {
+// 	console.log('typeof action', typeof action)
+// 	if(typeof action === 'function') {
+// 		return action(store.dispatch)
+// 	}
+
+// 	return next(action)
+// }
+
 const store = Redux.createStore(Redux.combineReducers({
 	todos,
 	goals,
 	loading
-}), Redux.applyMiddleware(checker, logger))
+}), Redux.applyMiddleware(ReduxThunk.default, checker, logger))
 
 store.subscribe(() => {
 	console.log("The new state is : ", store.getState())
