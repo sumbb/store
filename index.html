@@ -16,16 +16,6 @@
         function generateId () {
             return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
         }
-        function handleDeleteTodo(todo) {
-	    console.log('here')
-	    return (dispatch) => {
-		    dispatch(removeTodoAction(todo.id))
-		    return API.deleteTodo(todo.id).catch(() => {
-			    dispatch(addTodoAction(todo))
-			    alert("An error occured while deleting todo : "+ todo.name)
-		    })
-	    }	
-}
     </script>
     <script type="text/babel">
         function List(props) {
@@ -81,19 +71,13 @@
         class Goals extends React.Component {
             addItem = (event) => {
                 event.preventDefault()
-                return API.saveGoal(this.input.value)
-                    .then((goal) => {
-                        this.props.store.dispatch(addGoalAction(goal))
-                        this.input.value = ''
-                    })
-                    .catch(() => alert('An Error occured while adding Goal, try again'))
+                this.props.store.dispatch(handleAddGoal(
+                    this.input.value,
+                    () => this.input.value = ''
+                ))
             }
             removeItem = (goal) => {
-                this.props.store.dispatch(removeGoalAction(goal.id))
-                return API.deleteGoal(goal.id).catch(() => {
-                    this.props.store.dispatch(addGoalAction(goal))
-                    alert('An Error occured while deleting goal : '+ goal.name)
-                })
+                this.props.store.dispatch(handleDeleteGoal(goal))
             }
             render() {
                 return <div>

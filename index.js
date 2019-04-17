@@ -54,6 +54,16 @@ function removeTodoAction(id) {
 	}
 }
 
+function handleDeleteTodo(todo) {
+	return (dispatch) => {
+		dispatch(removeTodoAction(todo.id))
+		return API.deleteTodo(todo.id).catch(() => {
+			dispatch(addTodoAction(todo))
+			alert("An error occured while deleting todo : "+ todo.name)
+		})
+	}
+}
+
 function toggleTodoAction(id) {
 	return {
 		type : TOGGLE_TODO,
@@ -68,10 +78,32 @@ function addGoalAction(goal) {
 	}
 }
 
+function handleAddGoal(name, resetInput) {
+	return (dispatch) => {
+		return API.saveGoal(name)
+                    .then((goal) => {
+                        dispatch(addGoalAction(goal))
+                        resetInput()
+                    })
+                    .catch(() => alert('An Error occured while adding Goal, try again'))
+	}
+
+}
+
 function removeGoalAction(id) {
 	return {
 		type : REMOVE_GOAL,
 		id
+	}
+}
+
+function handleDeleteGoal(goal) {
+	return (dispatch) => {
+		dispatch(removeGoalAction(goal.id))
+                return API.deleteGoal(goal.id).catch(() => {
+                    dispatch(addGoalAction(goal))
+                    alert('An Error occured while deleting goal : '+ goal.name)
+                })
 	}
 }
 
