@@ -46,6 +46,16 @@ function addTodoAction(todo) {
 		todo
 	}
 }
+function handleAddTodo(name, resetInput) {
+	return (dispatch) => {
+		return API.saveTodo(name)
+                    .then((todo) => {
+                        dispatch(addTodoAction(todo))
+                        resetInput()
+                    })
+                    .catch(() => alert("Error while adding todo, try again"))
+	}
+}
 
 function removeTodoAction(id) {
 	return {
@@ -68,6 +78,16 @@ function toggleTodoAction(id) {
 	return {
 		type : TOGGLE_TODO,
 		id
+	}
+}
+
+function handleToggleTodo(todo) {
+	return (dispatch) => {
+		dispatch(toggleTodoAction(todo.id))
+                return API.saveTodoToggle(todo.id).catch(() => {
+                    dispatch(toggleTodoAction(todo.id))
+                    alert("Error while toggling todo : "+ todo.name)
+                })
 	}
 }
 
