@@ -8,6 +8,7 @@
   <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
   <script src="https://tylermcginnis.com/goals-todos-api/index.js"></script>
   <script src="https://unpkg.com/redux-thunk@2.2.0/dist/redux-thunk.min.js"></script>
+  <script src="https://unpkg.com/react-redux@5.0.6/dist/react-redux.min.js"></script>
   <script src="index.js"></script>
 </head>
 <body>
@@ -79,7 +80,7 @@
 
         const ConnectedTodos = connect((state) => ({
             todos : state.todos
-        }))(Todos)    
+        }), Todos)
 
         class Goals extends React.Component {
             addItem = (event) => {
@@ -121,7 +122,7 @@
 
         const ConnectedGoals = connect((state) => ({
             goals : state.goals
-        }))(Goals)
+        }), Goals)
         
         class App extends React.Component {
             componentDidMount() {
@@ -144,7 +145,7 @@
 
         const ConnectedApp = connect((state) => ({
             loading: state.loading
-        }))(App)
+        }), App)
 
         // class ConnectedApp extends React.Component {
         //     render() {
@@ -170,8 +171,7 @@
             }
         }
 
-        function connect(mapsStateToProps) {
-            return (Component) => {
+        function connect(mapsStateToProps, Component) {
                 class Receiver extends React.Component {
                     componentDidMount() {
                         this.unsubscribe = this.props.store.subscribe(() => {
@@ -203,9 +203,9 @@
                 }   
 
                 return ConnectedComponent
-            }
+            
         }
-
+        
         ReactDOM.render(
             <Provider store={store}>
             <ConnectedApp/>
